@@ -1,0 +1,6 @@
+projectKey=students-app
+serverUrl=http://localhost:9005
+serverVersion=26.2.0.119303
+dashboardUrl=http://localhost:9005/dashboard?id=students-app
+ceTaskId=ef7b8d3f-f934-4617-b774-272c8a8371d5
+ceTaskUrl=http://localhost:9005/api/ce/task?id=ef7b8d3f-f934-4617-b774-272c8a8371d5

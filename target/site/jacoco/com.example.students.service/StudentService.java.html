@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">students</a> &gt; <a href="index.source.html" class="el_package">com.example.students.service</a> &gt; <span class="el_source">StudentService.java</span></div><h1>StudentService.java</h1><pre class="source lang-java linenums">package com.example.students.service;
+
+import com.example.students.model.Student;
+import com.example.students.repository.StudentRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class StudentService {
+
+    private final StudentRepository studentRepository;
+
+    // Constructeur manuel (sans Lombok)
+<span class="fc" id="L14">    public StudentService(StudentRepository studentRepository) {</span>
+<span class="fc" id="L15">        this.studentRepository = studentRepository;</span>
+<span class="fc" id="L16">    }</span>
+
+    public List&lt;Student&gt; getAllStudents() {
+<span class="fc" id="L19">        return studentRepository.findAll();</span>
+    }
+
+    public Student getStudentById(Long id) {
+<span class="fc" id="L23">        return studentRepository.findById(id)</span>
+<span class="fc" id="L24">            .orElseThrow(() -&gt; new RuntimeException(&quot;Etudiant non trouve avec l'id: &quot; + id));</span>
+    }
+
+    public Student createStudent(Student student) {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (studentRepository.existsByEmail(student.getEmail())) {</span>
+<span class="fc" id="L29">            throw new RuntimeException(&quot;Un etudiant avec cet email existe deja&quot;);</span>
+        }
+<span class="fc" id="L31">        return studentRepository.save(student);</span>
+    }
+
+    public Student updateStudent(Long id, Student studentDetails) {
+<span class="fc" id="L35">        Student student = getStudentById(id);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (studentRepository.existsByEmailAndIdNot(studentDetails.getEmail(), id)) {</span>
+<span class="fc" id="L37">            throw new RuntimeException(&quot;Cet email est deja utilise par un autre etudiant&quot;);</span>
+        }
+<span class="fc" id="L39">        student.setFirstName(studentDetails.getFirstName());</span>
+<span class="fc" id="L40">        student.setLastName(studentDetails.getLastName());</span>
+<span class="fc" id="L41">        student.setEmail(studentDetails.getEmail());</span>
+<span class="fc" id="L42">        student.setAge(studentDetails.getAge());</span>
+<span class="fc" id="L43">        student.setMajor(studentDetails.getMajor());</span>
+<span class="fc" id="L44">        return studentRepository.save(student);</span>
+    }
+
+    public void deleteStudent(Long id) {
+<span class="fc" id="L48">        Student student = getStudentById(id);</span>
+<span class="fc" id="L49">        studentRepository.delete(student);</span>
+<span class="fc" id="L50">    }</span>
+
+    public List&lt;Student&gt; searchStudents(String query) {
+<span class="fc" id="L53">        return studentRepository</span>
+<span class="fc" id="L54">            .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

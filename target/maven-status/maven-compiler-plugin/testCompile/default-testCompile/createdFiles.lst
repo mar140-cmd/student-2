@@ -1,0 +1,5 @@
+com\example\students\repository\StudentRepositoryTest.class
+com\example\students\controller\StudentControllerTest.class
+com\example\students\service\StudentServiceTest.class
+com\example\students\controller\StudentControllerTest$FakeServiceConfig$1.class
+com\example\students\controller\StudentControllerTest$FakeServiceConfig.class

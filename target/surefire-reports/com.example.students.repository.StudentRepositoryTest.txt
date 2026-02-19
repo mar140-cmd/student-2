@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.students.repository.StudentRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.059 s -- in com.example.students.repository.StudentRepositoryTest
