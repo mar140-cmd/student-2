@@ -107,6 +107,29 @@ pipeline {
                 bat 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9005 -Dsonar.token=squ_41143ed33b4f64794c9a85f58e91da3031a6aa53'
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                echo '=== Build image Docker ==='
+                bat "docker build -t mariemriahii/students-app-backend:%BUILD_NUMBER% ."
+                bat "docker tag mariemriahii/students-app-backend:%BUILD_NUMBER% mariemriahii/students-app-backend:latest"
+            }
+        }
+
+        stage('Push Docker Image to DockerHub') {
+            steps {
+                echo '=== Push sur DockerHub ==='
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                    bat "docker push mariemriahii/students-app-backend:%BUILD_NUMBER%"
+                    bat "docker push mariemriahii/students-app-backend:latest"
+                }
+            }
+        }
     }
 
     post {
